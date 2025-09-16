@@ -1,0 +1,33 @@
+app.py
+#mostra il testo grezzo
+        #st.subheader("Ecco il testo estratto dallo scontrino:")
+        #st.write("Se il testo è sbagliato prova a ricaricare l'immagine. Potrai comunque modificare la lista dopo.")
+        #st.write(testo_grezzo)
+
+        # PROSSIMO PASSO: Qui aggiungeremo un pulsante "Conferma e Pulisci Lista"
+        # che prenderà questo testo grezzo e lo manderà a OpenAI per la pulizia.
+
+
+        🗑️
+
+
+
+    st.image(uploaded_file, caption="Scontrino caricato.")
+    estrai_cibi = st.button('Conferma') #Dovrò fare in modo che la parte sopra sparisca una volta caricata
+ 
+
+# Il pulsante è attivo solo se ci sono ingredienti nella lista
+if st.button("👨‍🍳 Genera Ricette!", disabled=not st.session_state.dispensa):
+    #controllo ingredienti in dispensa
+    with st.spinner("Controllo gli ingredienti in dispensa..."):
+        ingredienti_filtrati = ac.filtra_ingredienti_commestibili(st.session_state.dispensa)
+
+    st.info(f"Ricetta generata usando: {','.join(ingredienti_filtrati)}")
+    # Usiamo uno 'spinner' per mostrare che l'app sta lavorando
+    with st.spinner("Il nostro chef sta pensando..."):
+        # Chiamiamo la funzione dal nostro file 'ratatouille.py'
+        ricette = ac.genera_ricette_da_api(ingredienti_filtrati)
+        
+        # Mostriamo il risultato
+        st.markdown("### Ecco cosa puoi preparare:")
+        st.success(ricette)
