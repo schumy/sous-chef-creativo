@@ -6,6 +6,7 @@ import api_clients as ac
 import logic_manager as lm
 import api_clients as ac
 import os
+import json
 
 if 'lista_da_confermare' not in st.session_state:
     st.session_state.lista_da_confermare = None
@@ -128,7 +129,47 @@ else:
     #if st.button("Pulisci Tuta La Lista"):
         #st.session_state.ingredienti = []
         #st.rerun()
+
+st.write("---")
+
+# --- SEZIONE PER IMPORTARE ED ESPORTARE LA DISPENSA ---
+with st.expander("📂 Gestisci la tua Dispensa (Importa/Esporta)"):
+
+    # --- IMPORTA ---
+    st.subheader("Importa una dispensa")
+    file_importato = st.file_uploader(
+        "Carica un file 'dispensa.json' per ripristinare i tuoi ingredienti.",
+        type="json"
+    )
+    
+    if file_importato is not None:
+        # Leggiamo il contenuto del file
+        contenuto_stringa = file_importato.getvalue().decode("utf-8")
+        # Convertiamo la stringa JSON in una lista Python
+        dati_importati = json.loads(contenuto_stringa)
         
+        # Aggiorniamo la nostra dispensa in sessione
+        st.session_state.dispensa = dati_importati
+        
+        st.success("Dispensa importata con successo!")
+        st.rerun()
+
+    # --- ESPORTA ---
+    st.subheader("Esporta la tua dispensa")
+    # Mostriamo il pulsante solo se la dispensa non è vuota
+    if st.session_state.dispensa:
+        # Convertiamo la nostra lista Python in una stringa di testo JSON formattata
+        dispensa_json_string = json.dumps(st.session_state.dispensa, indent=4)
+        
+        st.download_button(
+           label="📥 Scarica la Dispensa",
+           data=dispensa_json_string,
+           file_name='dispensa.json',
+           mime='application/json',
+        )
+    else:
+        st.warning("La tua dispensa è vuota. Aggiungi ingredienti per poterla esportare.")
+
 
 # --- 4. Pulsante per Generare le Ricette ---
 st.write("---")

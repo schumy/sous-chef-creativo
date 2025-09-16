@@ -30,7 +30,7 @@ def aggiungi_ingrediente(dispensa_attuale, ingrediente_da_aggiungere):
         if ingrediente_da_aggiungere not in dispensa_attuale:
             # ...aggiungiamo l'ingrediente alla nostra lista in memoria.
             dispensa_attuale.append(ingrediente_da_aggiungere)
-            salva_dispensa(dispensa_attuale)
+            #salva_dispensa(dispensa_attuale)
             return True
         return False
 
@@ -39,7 +39,7 @@ def rimuovi_ingrediente(dispensa_attuale, ingrediente_da_rimuovere):
     if ingrediente_da_rimuovere in dispensa_attuale:
     #Rimuove l'ingrediente dalla dispensa
       dispensa_attuale.remove(ingrediente_da_rimuovere)
-      salva_dispensa(dispensa_attuale)
+      #salva_dispensa(dispensa_attuale)
       return True   #operazione riuscita
     
     #Se l'ingrediente non è nella lista non facciamo niente e lo comunichiamo
